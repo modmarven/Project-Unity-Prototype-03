@@ -5,10 +5,12 @@ using UnityEngine;
 public class ObstacleManager : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
+    private PlayerController playerController;
+    public float leftBound = 15f;
 
     void Start()
     {
-        
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     
@@ -19,6 +21,14 @@ public class ObstacleManager : MonoBehaviour
 
     private void ObstacleMoving()
     {
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
+        if (playerController.gameOver == false)
+        {
+            transform.Translate(Vector3.left * speed * Time.deltaTime);
+        }
+        
+        if (transform.position.x < leftBound && gameObject.CompareTag("Obstacle"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
